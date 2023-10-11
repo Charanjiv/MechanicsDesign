@@ -9,11 +9,12 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        m_GMoveComp = GetComponent<GroundedMovementScript>();
+        m_GMoveComp = GetComponent<GroundedMovementScript>();  //get movement script
 
     }
     private void Update()
     {
+        m_GMoveComp.AddMovementInput(Input.GetAxis("Horizontal")); //input
         
     }
 

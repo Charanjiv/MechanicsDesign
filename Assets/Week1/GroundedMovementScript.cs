@@ -4,16 +4,17 @@ using UnityEngine;
 
 
 [RequireComponent(typeof(Rigidbody2D))]
+//if add to body without rigidbody, can't remove rb if script is attached
 public class GroundedMovementScript : MonoBehaviour
 {
     [SerializeField] private float m_fMoveStrength;
-    [SerializeField] private AnimationCurve m_StrengthLUT;
-    [SerializeField] private Vector2 m_SpeedLimits;
+    [SerializeField] private AnimationCurve m_StrengthLUT; //store a curve, nothing to do with animation
+    [SerializeField] private Vector2 m_SpeedLimits; //Vector can instead be used as 2 floats, it saves memory 
 
     [SerializeField] private Rigidbody2D m_RB;
 
 
-    private float m_fRequestedDir;
+    private float m_fRequestedDir; //looks for direction
 
     private void Awake()
     {
