@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GroundedScript : MonoBehaviour
 {
@@ -33,5 +34,7 @@ public class GroundedScript : MonoBehaviour
         }
         return m_bGrounded;
     }
-
+  
 }
+
+

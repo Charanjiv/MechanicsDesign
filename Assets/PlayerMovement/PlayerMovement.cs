@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D rb;
 
 
-
+    
     [Header("Movement")]
     public float moveSpeed = 5.0f;
     float horizontalMovement;
