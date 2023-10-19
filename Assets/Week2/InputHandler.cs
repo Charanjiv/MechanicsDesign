@@ -17,15 +17,19 @@ public class InputHandler : MonoBehaviour
     private Coroutine m_CRMove;
 
     private bool m_bISJump;
+    public GroundedMovementScript m_GMoveComp;
 
-# endregion
+    #endregion
     public Rigidbody2D rb;
+
 
 
 
     private void Awake()
     {
-        m_Input = GetComponent<PlayerInput>();  
+        m_Input = GetComponent<PlayerInput>();
+        m_GMoveComp = GetComponent<GroundedMovementScript>();  //get movement script
+
     }
     private void Start()
     {
@@ -65,6 +69,7 @@ public class InputHandler : MonoBehaviour
             Debug.Log($"Move Update! Value: {m_fInMove}");
             yield return null;
             
+            
         }
         
 
@@ -72,13 +77,17 @@ public class InputHandler : MonoBehaviour
 
     private void Handle_JumpPertformed(InputAction.CallbackContext context)
     {
+        
+ 
         Debug.Log("Jump");
     }
+
+    
 
     private void Handle_JumpCancelled(InputAction.CallbackContext context)
     {
 
-        
+       
     }
 
 

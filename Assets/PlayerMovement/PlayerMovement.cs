@@ -15,14 +15,14 @@ public class PlayerMovement : MonoBehaviour
 
     
     [Header("Movement")]
-    public float moveSpeed = 5.0f;
+    [SerializeField] private float moveSpeed = 5.0f;
     float horizontalMovement;
 
 
     [Header("Jumping")]
-    public float jumpPower = 10.0f;
-    public int maxJumps = 2;
-    int jumpsRemaining;
+    [SerializeField] private float jumpPower = 10.0f;
+    [SerializeField] private int maxJumps = 2;
+    private int jumpsRemaining;
 
 
     [Header("GroundCheck")]
@@ -32,9 +32,9 @@ public class PlayerMovement : MonoBehaviour
 
 
     [Header("Gravity")]
-    public float baseGravity = 2.0f;
-    public float maxFallSpeed = 18.0f;
-    public float fallSpeedMultiplier = 2.0f;
+    [SerializeField] private float baseGravity = 2.0f;
+    [SerializeField] private float maxFallSpeed = 18.0f;
+    [SerializeField] private float fallSpeedMultiplier = 2.0f;
 
 
 

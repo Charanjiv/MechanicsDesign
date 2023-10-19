@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
 [RequireComponent(typeof(GroundedMovementScript))]
 
 public class Player : MonoBehaviour
@@ -14,8 +16,10 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
-        m_GMoveComp.AddMovementInput(Input.GetAxis("Horizontal")); //input
+        m_GMoveComp.AddMovementInput(Input.GetAxis("Horizontal"));//input
         
+
+
     }
 
 
