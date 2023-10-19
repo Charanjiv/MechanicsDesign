@@ -627,9 +627,12 @@ GameObject:
   - component: {fileID: 1969421922}
   - component: {fileID: 1969421921}
   - component: {fileID: 1969421925}
-  - component: {fileID: 1969421927}
-  - component: {fileID: 1969421929}
   - component: {fileID: 1969421928}
+  - component: {fileID: 1969421927}
+  - component: {fileID: 1969421931}
+  - component: {fileID: 1969421930}
+  - component: {fileID: 1969421932}
+  - component: {fileID: 1969421933}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -797,7 +800,75 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &1969421929
+--- !u!114 &1969421930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1969421919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0be7ea5d9a9a530419465146562df7b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_fMoveStrength: 20
+  m_StrengthLUT:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_SpeedLimits: {x: 20, y: 20}
+  m_RB: {fileID: 1969421928}
+--- !u!114 &1969421931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1969421919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4eb60a5944a220149add549680096211, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_GMoveComp: {fileID: 1969421930}
+--- !u!114 &1969421932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1969421919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26bef4afaa9af9d46a48d2cc05d4dea7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_GroundedCol: {fileID: 1969421925}
+  m_GroundedLayer:
+    serializedVersion: 2
+    m_Bits: 8
+--- !u!114 &1969421933
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -809,3 +880,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd50a32426cf9c54e9e7428afa12bbd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 1969421928}

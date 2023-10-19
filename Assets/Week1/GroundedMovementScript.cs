@@ -14,17 +14,6 @@ public class GroundedMovementScript : MonoBehaviour
 
     [SerializeField] private Rigidbody2D m_RB;
 
-
-
-    //[SerializeField] Transform groundCheckPos;
-    //[SerializeField] Vector2 groundCheckSize = new Vector2(0.5f, 0.05f);
-    //[SerializeField] LayerMask groundLayer;
-
-    [SerializeField] private float jumpPower = 10.0f;
-    [SerializeField] private int maxJumps = 2;
-    [SerializeField] private int jumpsRemaining;
-
-
     private float m_fRequestedDir; //looks for direction
 
     private void Awake()
@@ -42,7 +31,7 @@ public class GroundedMovementScript : MonoBehaviour
     private void FixedUpdate()
     {
         m_RB.AddForce(Vector2.right * m_fRequestedDir * m_fMoveStrength, ForceMode2D.Force);
-        //m_RB.velocity = (m_RB.velocity.magnitude > m_SpeedLimits.y) ? m_RB.velocity.normalized * m_SpeedLimits.y
+        
 
         if(m_RB.velocity.magnitude > m_SpeedLimits.y)
         {
@@ -52,19 +41,7 @@ public class GroundedMovementScript : MonoBehaviour
     public void Jump(InputAction.CallbackContext context)
     {
 
-       /* if (jumpsRemaining > 0)
-        {
-            if (context.performed)
-            {
-                m_RB.velocity = new Vector2(m_RB.velocity.x, jumpPower);
-                jumpsRemaining--;
-            }
-            else if (context.canceled)
-            {
-                m_RB.velocity = new Vector2(m_RB.velocity.x, m_RB.velocity.y * 0.5f);
-                jumpsRemaining--;
-            }
-       }*/
+    
     }
 
 

@@ -21,9 +21,7 @@ public class InputHandler : MonoBehaviour
 # endregion
     public Rigidbody2D rb;
 
-    [Header("Movement")]
-    [SerializeField] float moveSpeed = 5.0f;
-    [SerializeField] float horizontalMovement;
+
 
     private void Awake()
     {
@@ -33,6 +31,8 @@ public class InputHandler : MonoBehaviour
     {
         m_Input.currentActionMap.FindAction("Move").performed += Handle_MovePerformed;
         m_Input.currentActionMap.FindAction("Move").canceled += Handle_MoveCancelled;
+        m_Input.currentActionMap.FindAction("Jump").performed += Handle_JumpPertformed;
+        m_Input.currentActionMap.FindAction("Jump").canceled += Handle_JumpCancelled;
 
     }
     private void Handle_MovePerformed(InputAction.CallbackContext context)
@@ -60,8 +60,8 @@ public class InputHandler : MonoBehaviour
     {
         while(m_bIsMove)
         {
-            horizontalMovement = context.ReadValue<Vector2>().x;
-            rb.velocity = new Vector2(horizontalMovement * moveSpeed, rb.velocity.y);
+            
+           
             Debug.Log($"Move Update! Value: {m_fInMove}");
             yield return null;
             
@@ -72,7 +72,7 @@ public class InputHandler : MonoBehaviour
 
     private void Handle_JumpPertformed(InputAction.CallbackContext context)
     {
-
+        Debug.Log("Jump");
     }
 
     private void Handle_JumpCancelled(InputAction.CallbackContext context)
