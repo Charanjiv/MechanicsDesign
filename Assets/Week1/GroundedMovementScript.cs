@@ -8,18 +8,19 @@ using UnityEngine.InputSystem;
 //if add to body without rigidbody, can't remove rb if script is attached
 public class GroundedMovementScript : MonoBehaviour
 {
+    [SerializeField] private Rigidbody2D m_RB;
 
     [Header("Movement")]
     [SerializeField] private float m_fMoveStrength;
     [SerializeField] private AnimationCurve m_StrengthLUT; //store a curve, nothing to do with animation
     [SerializeField] private Vector2 m_SpeedLimits; //Vector can instead be used as 2 floats, it saves memory 
 
-    [SerializeField] private Rigidbody2D m_RB;
+    
 
     [Header("Jumping")]
-    public float jumpPower = 10.0f;
-    public int maxJumps = 2;
-    public int jumpsRemaining;
+    [SerializeField] private float m_fJumpPower = 10.0f;
+    
+    bool m_bIsJumping;
 
     [Header("Gravity")]
     [SerializeField] private float baseGravity = 2.0f;
@@ -31,6 +32,7 @@ public class GroundedMovementScript : MonoBehaviour
     private void Awake()
     {
         m_RB = GetComponent<Rigidbody2D>();
+        Gravity();
     }
     public void AddMovementInput(float inMov)
     {
@@ -54,22 +56,24 @@ public class GroundedMovementScript : MonoBehaviour
     }
     public void Jump(InputAction.CallbackContext context)
     {
-        m_RB.AddForce(new Vector2(m_RB.velocity.x, 330f));
-       /* if (jumpsRemaining > 0)
-        {
-            if (context.performed)
-            {
-                m_RB.velocity = new Vector2(m_RB.velocity.x, jumpPower);
-                //m_RB.AddForce(new Vector2(m_RB.velocity.x, 300f));
-                Debug.Log("Performe");
-                jumpsRemaining--;
-            }
-            else if (context.canceled)
-            {
-                m_RB.velocity = new Vector2(m_RB.velocity.x, m_RB.velocity.y * 0.5f);
-                jumpsRemaining--;
-            }
-        }*/
+        
+       Debug.Log("Performe");
+        m_RB.AddForce(new Vector2(m_RB.velocity.x, m_fJumpPower));
+         /*if (jumpsRemaining > 0)
+         {
+             if (context.performed)
+             {
+                 m_RB.velocity = new Vector2(m_RB.velocity.x, jumpPower);
+                 //m_RB.AddForce(new Vector2(m_RB.velocity.x, 300f));
+                 Debug.Log("Performe");
+                 jumpsRemaining--;
+             }
+             else if (context.canceled)
+             {
+                 m_RB.velocity = new Vector2(m_RB.velocity.x, m_RB.velocity.y * 0.5f);
+                 jumpsRemaining--;
+             }
+         }*/
 
     }
 

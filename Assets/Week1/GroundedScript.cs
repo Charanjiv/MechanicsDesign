@@ -30,11 +30,13 @@ public class GroundedScript : MonoBehaviour
         {
             //Fires when we just hit the ground  or have just left the ground
             m_bGrounded = !m_bGrounded;
-            //OnGroundChanged(m_bGrounded);
+
+            OnGroundChanged(m_bGrounded);
         }
         return m_bGrounded;
     }
-  
+
+
 }
 
 

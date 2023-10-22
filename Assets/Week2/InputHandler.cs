@@ -12,12 +12,14 @@ public class InputHandler : MonoBehaviour
     #region input variables
 {
     private PlayerInput m_Input;
-    private float m_fInMove;
+    private float m_fInMove;//float
     private bool m_bIsMove;
     private Coroutine m_CRMove;
+    [SerializeField] private float m_Speed;
 
     private bool m_bISJump;
     public GroundedMovementScript m_GMoveComp;
+
 
     #endregion
     public Rigidbody2D rb;
@@ -64,7 +66,8 @@ public class InputHandler : MonoBehaviour
     {
         while(m_bIsMove)
         {
-            
+            /*rb.AddForce(new Vector3(m_fInMove.x, 0f, m_fInMove.y) * m_Speed, ForceMode2D.Force);
+            yield return new WaitForFixedUpdate();*/
            
             Debug.Log($"Move Update! Value: {m_fInMove}");
             yield return null;
