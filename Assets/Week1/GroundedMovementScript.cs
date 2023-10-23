@@ -4,11 +4,13 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
+
 [RequireComponent(typeof(Rigidbody2D))]
 //if add to body without rigidbody, can't remove rb if script is attached
 public class GroundedMovementScript : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D m_RB;
+
 
     [Header("Movement")]
     [SerializeField] private float m_fMoveStrength;
@@ -19,7 +21,15 @@ public class GroundedMovementScript : MonoBehaviour
 
     [Header("Jumping")]
     [SerializeField] private float m_fJumpPower = 10.0f;
-    
+    [SerializeField] private int maxJumps = 2;
+    private int jumpsRemaining;
+
+
+    [Header("GroundCheck")]
+    public Transform groundCheckPos;
+    public Vector2 groundCheckSize = new Vector2(0.5f, 0.05f);
+    public LayerMask groundLayer;
+
     bool m_bIsJumping;
 
     [Header("Gravity")]
@@ -33,6 +43,7 @@ public class GroundedMovementScript : MonoBehaviour
     {
         m_RB = GetComponent<Rigidbody2D>();
         Gravity();
+
     }
     public void AddMovementInput(float inMov)
     {
@@ -53,27 +64,30 @@ public class GroundedMovementScript : MonoBehaviour
             m_RB.velocity = m_RB.velocity.normalized * m_SpeedLimits.y;
         }
         Gravity();
+        GroundCheck();
     }
     public void Jump(InputAction.CallbackContext context)
     {
-        
-       Debug.Log("Performe");
-        m_RB.AddForce(new Vector2(m_RB.velocity.x, m_fJumpPower));
-         /*if (jumpsRemaining > 0)
+        //jumpsRemaining = maxJumps;
+        Debug.Log("Performe");
+        //m_RB.AddForce(new Vector2(m_RB.velocity.x, m_fJumpPower));
+         if (jumpsRemaining > 0)
          {
              if (context.performed)
              {
-                 m_RB.velocity = new Vector2(m_RB.velocity.x, jumpPower);
-                 //m_RB.AddForce(new Vector2(m_RB.velocity.x, 300f));
+                 m_RB.velocity = new Vector2(m_RB.velocity.x, m_fJumpPower);
+                 
                  Debug.Log("Performe");
                  jumpsRemaining--;
              }
              else if (context.canceled)
              {
-                 m_RB.velocity = new Vector2(m_RB.velocity.x, m_RB.velocity.y * 0.5f);
-                 jumpsRemaining--;
+              
+                m_RB.velocity = new Vector2(m_RB.velocity.x, m_fJumpPower * 0.5f);
+
+                jumpsRemaining--;
              }
-         }*/
+         }
 
     }
 
@@ -89,6 +103,21 @@ public class GroundedMovementScript : MonoBehaviour
             m_RB.gravityScale = baseGravity;
         }
     }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireCube(groundCheckPos.position, groundCheckSize);
+    }
+    public void GroundCheck()
+    {
+        if (Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer))
+        {
+            jumpsRemaining = maxJumps;
+        }
+
+    }
+    
 
 
 
