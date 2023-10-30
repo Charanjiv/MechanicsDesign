@@ -21,14 +21,16 @@ public class JumpFunctionality : MonoBehaviour
     [SerializeField] private float m_JumpTimer;
     [SerializeField] private AnimationCurve m_AnalogueJumpUpForce;
     private bool m_Grounded;
+     
 
 
-    
- 
+
+
 
     private void Awake()
     {
         m_RB = GetComponent<Rigidbody2D>();
+        m_Grounded = true;
     }
 
     private void FixedUpdate()

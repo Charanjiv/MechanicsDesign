@@ -7,7 +7,7 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerOneWayPlatform : MonoBehaviour
 {
-    [SerializeField] private Collider2D collider;
+    private Collider2D collider;
     private bool playerOnPlatform;
 
     private void Awake()

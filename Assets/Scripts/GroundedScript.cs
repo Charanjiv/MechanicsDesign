@@ -43,8 +43,6 @@ public class GroundedScript : MonoBehaviour
 
         }
 
-
-
         return m_bGrounded = false;
     }
 

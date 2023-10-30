@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.Rendering.DebugUI;
@@ -15,7 +16,7 @@ public class InputHandler : MonoBehaviour
     private float m_fInMove;//float
     private bool m_bIsMove;
     private Coroutine m_CRMove;
-    [SerializeField] private float m_Speed;
+    
 
     private bool m_bISJump;
     public GroundedMovementScript m_GMoveComp;
@@ -30,7 +31,7 @@ public class InputHandler : MonoBehaviour
     private void Awake()
     {
         m_Input = GetComponent<PlayerInput>();
-        m_GMoveComp = GetComponent<GroundedMovementScript>();  //get movement script
+        m_GMoveComp = GetComponent<GroundedMovementScript>();//get movement script
 
     }
     private void Start()
@@ -60,18 +61,19 @@ public class InputHandler : MonoBehaviour
             StopCoroutine(m_CRMove);
         }
         m_CRMove = null;
+        Debug.Log("Stooooooooooooooooooooooooooooooooop");
     }
 
     private IEnumerator C_MoveUpdate()
     {
         while(m_bIsMove)
         {
-            /*rb.AddForce(new Vector3(m_fInMove.x, 0f, m_fInMove.y) * m_Speed, ForceMode2D.Force);
-            yield return new WaitForFixedUpdate();*/
+            m_GMoveComp.AddMovementInput(m_fInMove);
+            //rb.AddForce(new Vector2(m_fInMove, m_fInMove) * m_Speed, ForceMode2D.Force);
+            yield return new WaitForFixedUpdate();
            
             Debug.Log($"Move Update! Value: {m_fInMove}");
             yield return null;
-            
             
         }
         
@@ -81,7 +83,7 @@ public class InputHandler : MonoBehaviour
     private void Handle_JumpPertformed(InputAction.CallbackContext context)
     {
         
- 
+
         Debug.Log("Jump");
     }
 

@@ -70,7 +70,6 @@ public class GroundedMovementScript : MonoBehaviour
         private void FixedUpdate()
     {
 
-       
         m_RB.AddForce(Vector2.right * m_fRequestedDir * m_fMoveStrength, ForceMode2D.Force);
 
 
