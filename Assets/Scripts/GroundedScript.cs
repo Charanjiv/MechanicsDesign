@@ -17,6 +17,9 @@ public class GroundedScript : MonoBehaviour
     [SerializeField] private LayerMask m_GroundedLayer; //collider
 
 
+
+
+
     private void Awake()
     {
         if(m_GroundedCol == null)
@@ -45,7 +48,8 @@ public class GroundedScript : MonoBehaviour
         return m_bGrounded = false;
     }
 
-
 }
+
+
 
 

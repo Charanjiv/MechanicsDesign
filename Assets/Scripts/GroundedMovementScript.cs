@@ -67,7 +67,7 @@ public class GroundedMovementScript : MonoBehaviour
 
 
 
-    private void FixedUpdate()
+        private void FixedUpdate()
     {
 
        
@@ -112,12 +112,10 @@ public class GroundedMovementScript : MonoBehaviour
             m_JumpBufferTimer -= Time.deltaTime;
         }*/
     }
-    private bool IsGrounded()
-    {
-        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
-    }
 
-    public void Jump(InputAction.CallbackContext context)
+
+
+        public void Jump(InputAction.CallbackContext context)
     {
         /*
         //m_RB.velocity = new Vector2(m_RB.velocity.x, m_fJumpPower);
@@ -167,6 +165,12 @@ public class GroundedMovementScript : MonoBehaviour
         }*/
 
     }
+
+    private bool IsGrounded()
+    {
+        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+    }
+
     private void Gravity()
     {
         if (m_RB.velocity.y < 0)

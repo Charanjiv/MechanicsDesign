@@ -7,7 +7,7 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerOneWayPlatform : MonoBehaviour
 {
-    private Collider2D collider;
+    [SerializeField] private Collider2D collider;
     private bool playerOnPlatform;
 
     private void Awake()
@@ -17,25 +17,34 @@ public class PlayerOneWayPlatform : MonoBehaviour
 
     private void SetPlayerOnPlatform(Collision2D other, bool value)
     {
-        var player = other.gameObject.GetComponent<Player>();
-        if (player != null)
+        if (gameObject.CompareTag("OneWayPlatform"))
         {
-            playerOnPlatform = value;
+            var player = other.gameObject.GetComponent<Player>();
+            if (player != null)
+            {
+                playerOnPlatform = value;
+            }
         }
+
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        SetPlayerOnPlatform(other, true);
+      
+            SetPlayerOnPlatform(other, true);
+        
+            
     }
 
     private void OnCollisionExit2D(Collision2D other)
     {
-        SetPlayerOnPlatform(other, true);
+     
+            SetPlayerOnPlatform(other, true);
+        
     }
     private IEnumerator EnableCollider()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.5f);
         collider.enabled = true;
     }
 
