@@ -596,9 +596,10 @@ GameObject:
   - component: {fileID: 1564138446}
   - component: {fileID: 1564138445}
   - component: {fileID: 1564138444}
+  - component: {fileID: 1564138447}
   m_Layer: 3
-  m_Name: Square (1)
-  m_TagString: Untagged
+  m_Name: One Way Platform
+  m_TagString: OneWayPlatform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -633,7 +634,7 @@ BoxCollider2D:
     serializedVersion: 2
     m_Bits: 4294967295
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
@@ -715,6 +716,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!251 &1564138447
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1564138443}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 1
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!1 &1751679692
 GameObject:
   m_ObjectHideFlags: 0
@@ -762,7 +782,7 @@ GameObject:
   - component: {fileID: 1969421935}
   - component: {fileID: 1969421932}
   - component: {fileID: 1969421934}
-  - component: {fileID: 1969421933}
+  - component: {fileID: 1969421936}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -930,6 +950,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 8851a919-a249-4f88-8f1b-a4e1fedbab9a
     m_ActionName: Default/Jump[/Keyboard/space,/Keyboard/w,/Keyboard/upArrow]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1969421936}
+        m_TargetAssemblyTypeName: PlayerOneWayPlatform, Assembly-CSharp
+        m_MethodName: FallThroughPlatform
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d5bbaab6-d28d-4a9a-b11c-ce1defe030bd
+    m_ActionName: Default/FallThroughPlatform[/Keyboard/s,/Keyboard/downArrow]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Default
@@ -974,25 +1010,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26bef4afaa9af9d46a48d2cc05d4dea7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_bGrounded: 0
   m_GroundedCol: {fileID: 1969421925}
   m_GroundedLayer:
     serializedVersion: 2
     m_Bits: 8
---- !u!114 &1969421933
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1969421919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd50a32426cf9c54e9e7428afa12bbd6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Speed: 5
-  m_GMoveComp: {fileID: 1969421934}
-  rb: {fileID: 1969421928}
 --- !u!114 &1969421934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1006,7 +1028,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_RB: {fileID: 1969421928}
-  m_fMoveStrength: 50
+  m_fMoveStrength: 30
   m_StrengthLUT:
     serializedVersion: 2
     m_Curve:
@@ -1031,8 +1053,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_SpeedLimits: {x: 60, y: 60}
-  m_fJumpPower: 200
+  m_SpeedLimits: {x: 50, y: 50}
+  m_fJumpPower: 15
+  groundCheck: {fileID: 1751679693}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
   baseGravity: 2
   maxFallSpeed: 18
   fallSpeedMultiplier: 2
@@ -1049,3 +1075,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_GMoveComp: {fileID: 1969421934}
+--- !u!114 &1969421936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1969421919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33714a225f1935042b9d3c01c9e6d27e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

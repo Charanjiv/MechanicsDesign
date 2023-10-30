@@ -21,7 +21,7 @@ public class RatioAxis_LayoutGroup : LayoutGroup
 
     private float m_LayoutElementTotal;
     private Vector2 m_CellAxisUnitSize;
-    private bool m_usingLayoutElements;
+    private bool m_bUsingLayoutElements;
     public override void CalculateLayoutInputHorizontal()
     {
         if(m_Mode != Mode.HORIZONTAL) { return; }
@@ -35,7 +35,7 @@ public class RatioAxis_LayoutGroup : LayoutGroup
             {
                 continue;
             }
-            m_usingLayoutElements = m_LayoutElementTotal != 0f;
+            m_bUsingLayoutElements = m_LayoutElementTotal != 0f;
             m_CellAxisUnitSize = new Vector2(
                                              (rectTransform.rect.width - (padding.left + padding.right) - (m_Spacing.x * (rectChildren.Count - 1)))
                                              / (m_LayoutElementTotal != 0f ? m_LayoutElementTotal : rectChildren.Count),
@@ -46,7 +46,10 @@ public class RatioAxis_LayoutGroup : LayoutGroup
     }
     public override void CalculateLayoutInputVertical()
     {
-        if (m_Mode != Mode.VERTICAL) { return; }
+        if (m_Mode != Mode.VERTICAL) 
+        { 
+            return; 
+        }
 
         m_LayoutElementTotal = 0f;
 
@@ -57,13 +60,13 @@ public class RatioAxis_LayoutGroup : LayoutGroup
             {
                 continue;
             }
-            m_usingLayoutElements = m_LayoutElementTotal != 0f;
+            m_LayoutElementTotal += le.flexibleHeight;
+        }
+            m_bUsingLayoutElements = m_LayoutElementTotal != 0f;
             m_CellAxisUnitSize = new Vector2(
                                              rectTransform.rect.width - (padding.left + padding.right),
-                                             (rectTransform.rect.height - (padding
-                                             (m_Spacing.x * (rectChildren.Count - 1)))
-                                             / (m_LayoutElementTotal != 0f ? m_LayoutElementTotal : rectChildren.Count),
-                                             rectTransform.rect.height - (padding.top + padding.bottom)
+                                             (rectTransform.rect.height - (padding.top +padding.bottom) - (m_Spacing.y * (rectChildren.Count - 1)))
+                                             / (m_LayoutElementTotal != 0f ? m_LayoutElementTotal : rectChildren.Count)
                                              );
 
         }
@@ -77,7 +80,14 @@ public class RatioAxis_LayoutGroup : LayoutGroup
             if (m_Mode == Mode.HORIZONTAL)
             {
                 LayoutElement le = rectChildren[1].GetComponent<LayoutElement>();
-                if( le == null && m_usingLayoutElements)
+
+            /*
+             *      Truth Table
+             *          true    false
+             *   null   0   #
+             *   !null  #   #
+             */
+                if( le == null && m_bUsingLayoutElements)
                 {
                     SetChildAlongAxis(rectChildren[1], 0, pos, 0f);
                 }

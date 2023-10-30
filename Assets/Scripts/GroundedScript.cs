@@ -2,13 +2,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class GroundedScript : MonoBehaviour
 {
     public event Action<bool> OnGroundChanged;
-    private bool m_bGrounded;
+    public bool m_bGrounded = true;
+
+
 
     [SerializeField] private Collider2D m_GroundedCol; //ground
     [SerializeField] private LayerMask m_GroundedLayer; //collider
@@ -32,8 +35,14 @@ public class GroundedScript : MonoBehaviour
             m_bGrounded = !m_bGrounded;
 
             OnGroundChanged(m_bGrounded);
+            m_bGrounded = true;
+            
+
         }
-        return m_bGrounded;
+
+
+
+        return m_bGrounded = false;
     }
 
 
