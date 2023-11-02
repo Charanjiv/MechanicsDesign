@@ -7,10 +7,56 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerOneWayPlatform : MonoBehaviour
 {
-    private Collider2D collider;
-    private bool playerOnPlatform;
+
+    //private Collider2D collider;
+    //private bool playerOnPlatform;
+
+    private Rigidbody m_RB;
+    private BoxCollider2D m_BC;
 
     private void Awake()
+    {
+        m_BC = GetComponent<BoxCollider2D>();
+
+    }
+
+    public void CrouchOn()
+    {
+        StartCoroutine(TestIE());
+            
+    }
+
+    private IEnumerator TestIE() 
+    {
+        m_BC.enabled = false;
+        yield return new WaitForSeconds(.5f);
+        m_BC.enabled = true;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*private void Awake()
     {
         collider = GetComponent<Collider2D>();
     }
@@ -54,8 +100,9 @@ public class PlayerOneWayPlatform : MonoBehaviour
         Debug.Log("Performe fall");
         collider.enabled = false;
             StartCoroutine(EnableCollider());
-        
-    }
+       } */
+
+}
 
 
 
@@ -127,4 +174,4 @@ public class PlayerOneWayPlatform : MonoBehaviour
         yield return new WaitForSeconds(3f);
         Physics2D.IgnoreCollision(platformCollider, playerCollider, false);
     }*/
-}
+

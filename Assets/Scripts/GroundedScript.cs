@@ -35,10 +35,11 @@ public class GroundedScript : MonoBehaviour
         if(m_bGrounded != (m_GroundedCol.Cast(Vector2.down, filter, results, 0.1f, true) > 0))//casting a collider, return true if collided with something
         {
             //Fires when we just hit the ground  or have just left the ground
-            m_bGrounded = !m_bGrounded;
+            //m_bGrounded = !m_bGrounded;
 
             OnGroundChanged(m_bGrounded);
             m_bGrounded = true;
+            Debug.Log("IsGrounded");
             
 
         }

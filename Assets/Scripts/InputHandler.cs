@@ -20,7 +20,7 @@ public class InputHandler : MonoBehaviour
 
     private bool m_bISJump;
     public GroundedMovementScript m_GMoveComp;
-
+    public PlayerOneWayPlatform m_OneWayP;
 
     #endregion
     public Rigidbody2D rb;
@@ -32,7 +32,7 @@ public class InputHandler : MonoBehaviour
     {
         m_Input = GetComponent<PlayerInput>();
         m_GMoveComp = GetComponent<GroundedMovementScript>();//get movement script
-
+        m_OneWayP = GetComponent<PlayerOneWayPlatform>();
     }
     private void Start()
     {
@@ -40,6 +40,8 @@ public class InputHandler : MonoBehaviour
         m_Input.currentActionMap.FindAction("Move").canceled += Handle_MoveCancelled;
         m_Input.currentActionMap.FindAction("Jump").performed += Handle_JumpPertformed;
         m_Input.currentActionMap.FindAction("Jump").canceled += Handle_JumpCancelled;
+        m_Input.currentActionMap.FindAction("Crouch").performed += Handle_CrouchPerformed;
+      
 
     }
     private void Handle_MovePerformed(InputAction.CallbackContext context)
@@ -61,7 +63,7 @@ public class InputHandler : MonoBehaviour
             StopCoroutine(m_CRMove);
         }
         m_CRMove = null;
-        Debug.Log("Stooooooooooooooooooooooooooooooooop");
+        //Debug.Log("Stooooooooooooooooooooooooooooooooop");
     }
 
     private IEnumerator C_MoveUpdate()
@@ -72,7 +74,7 @@ public class InputHandler : MonoBehaviour
             //rb.AddForce(new Vector2(m_fInMove, m_fInMove) * m_Speed, ForceMode2D.Force);
             yield return new WaitForFixedUpdate();
            
-            Debug.Log($"Move Update! Value: {m_fInMove}");
+            //Debug.Log($"Move Update! Value: {m_fInMove}");
             yield return null;
             
         }
@@ -93,6 +95,11 @@ public class InputHandler : MonoBehaviour
     {
 
        
+    }
+
+    private void Handle_CrouchPerformed(InputAction.CallbackContext context)
+    {
+        m_OneWayP?.CrouchOn();
     }
 
 

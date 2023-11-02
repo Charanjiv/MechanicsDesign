@@ -112,9 +112,20 @@ public class GroundedMovementScript : MonoBehaviour
         }*/
     }
 
+    private void Gravity()
+    {
+        if (m_RB.velocity.y < 0)
+        {
+            m_RB.gravityScale = baseGravity * fallSpeedMultiplier; //fall increasingly faster
+            m_RB.velocity = new Vector2(m_RB.velocity.x, Mathf.Max(m_RB.velocity.y, -maxFallSpeed));
+        }
+        else
+        {
+            m_RB.gravityScale = baseGravity;
+        }
+    }
 
-
-        public void Jump(InputAction.CallbackContext context)
+    public void Jump(InputAction.CallbackContext context)
     {
         /*
         //m_RB.velocity = new Vector2(m_RB.velocity.x, m_fJumpPower);
@@ -128,9 +139,8 @@ public class GroundedMovementScript : MonoBehaviour
                 m_RB.AddForce(Vector2.up * m_fJumpPower * m_AnalogueJumpUpForce.Evaluate(m_JumpTimer / m_JumpDuration), ForceMode2D.Force);
             }
         }*/
-        if (IsGrounded())
-        {
-            if (context.performed)
+       
+            if (context.performed && IsGrounded())
             {
 
                 m_RB.velocity = new Vector2(m_RB.velocity.x, m_fJumpPower);
@@ -138,10 +148,10 @@ public class GroundedMovementScript : MonoBehaviour
 
 
             }
-            else if (context.canceled)
+            else if (context.canceled && IsGrounded())
             {
 
-                m_RB.velocity = new Vector2(m_RB.velocity.x, m_fJumpPower * 0.25f);
+                m_RB.velocity = new Vector2(m_RB.velocity.x, m_fJumpPower * 0.5f);
                 
 
 
@@ -149,37 +159,29 @@ public class GroundedMovementScript : MonoBehaviour
             }
         }
 
-        /*private void OnDrawGizmosSelected()
-        {
-            Gizmos.color = Color.white;
-            Gizmos.DrawWireCube(groundCheckPos.position, groundCheckSize);
-        }
-        public void GroundCheck()
-        {
-            if (Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer))
-            {
-                jumpsRemaining = maxJumps;
-            }
-
-        }*/
-
+    /*private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireCube(groundCheckPos.position, groundCheckSize);
     }
+    public void GroundCheck()
+    {
+        if (Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer))
+        {
+            jumpsRemaining = maxJumps;
+        }
+
+    }*/
+
 
     private bool IsGrounded()
     {
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
 
-    private void Gravity()
-    {
-        if (m_RB.velocity.y < 0)
-        {
-            m_RB.gravityScale = baseGravity * fallSpeedMultiplier; //fall increasingly faster
-            m_RB.velocity = new Vector2(m_RB.velocity.x, Mathf.Max(m_RB.velocity.y, -maxFallSpeed));
-        }
-        else
-        {
-            m_RB.gravityScale = baseGravity;
-        }
-    }
+
 }
+
+
+
+
