@@ -21,7 +21,7 @@ public class JumpFunctionality : MonoBehaviour
     [SerializeField] private float m_JumpTimer;
     [SerializeField] private AnimationCurve m_AnalogueJumpUpForce;
     private bool m_Grounded;
-     
+
 
 
 
@@ -31,11 +31,12 @@ public class JumpFunctionality : MonoBehaviour
     {
         m_RB = GetComponent<Rigidbody2D>();
         m_Grounded = true;
+        m_GroundedScipt = GetComponent<GroundedScript>();
     }
 
     private void FixedUpdate()
     {
-        m_Grounded = false;
+        
         if (m_JumpSkipGroundCheckTimer > 0f)
         {
             m_JumpSkipGroundCheckTimer -= Time.deltaTime;
