@@ -35,7 +35,7 @@ public class GroundedMovementScript : MonoBehaviour
     private void Awake()
     {
         m_RB = GetComponent<Rigidbody2D>();
-        
+        Gravity();
 
     }
     public void AddMovementInput(float inMov)

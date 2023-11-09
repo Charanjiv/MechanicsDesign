@@ -13,7 +13,7 @@ public class JumpFunctionality : MonoBehaviour
 
     [Header("Jumping")]
     [SerializeField] private float m_fJumpPower = 10.0f;
-    private bool m_IsJumping;
+    public bool m_IsJumping;
     public float LastOnGroundTime;
     public float jumpForce;
 
@@ -23,7 +23,7 @@ public class JumpFunctionality : MonoBehaviour
     public float coyoteTime;
     public float jumpInputBufferTime;
     private float LastPressedJumpTime;
-
+    
     [SerializeField] private Transform _groundCheckPoint;
     [SerializeField] private Vector2 _groundCheckSize = new Vector2(0.49f, 0.03f);
     [SerializeField] private LayerMask _groundLayer;
@@ -98,6 +98,7 @@ public class JumpFunctionality : MonoBehaviour
     {
         if (CanJumpCut())
             _isJumpCut = true;
+
     }
 
     public void Jump()
