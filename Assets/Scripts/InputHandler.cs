@@ -63,6 +63,7 @@ public class InputHandler : MonoBehaviour
 
         m_Input.currentActionMap.FindAction("Jump").performed += Handle_JumpPertformed;
         m_Input.currentActionMap.FindAction("Jump").canceled += Handle_JumpCancelled;
+        m_Input.currentActionMap.FindAction("Crouch").performed += Handle_CrouchPerformed;
     }
 
     #region Movement
@@ -138,19 +139,15 @@ public class InputHandler : MonoBehaviour
     }
     #endregion
 
+    #region One WayPlatform
     private void Handle_CrouchPerformed(InputAction.CallbackContext context)
     {
         m_OneWayP.CrouchOn();
     }
 
+    #endregion
 
 
-    /* 
-     * TO DO
-     * bind some functions to input
-     * have some vartaibles for storing input values locally
-     * record the values
-     * run update for move
-     * https://mermaid.live/edit#pako:eNplkUFqwzAQRa8iZpUQ5wKiu5a2FAKB7IqgTKxxbSJpjCwXQuq7V7It1021kfTf8OePdIOSNYGE0mDXPTX46dEqJ-I6GrySFw_f-7148dw7_VhTefkPD_xFllz4Q6TYVYYxCPtRvRKaUN_jt962m-29msySOuljqnX326QLsTszm2h-Nt2ESS9orMzqZitlqp3osPbNwX9Nl8gZnVpaGWecoj-zL2khOfZ8zbPlOaa2UIAlb7HR8cHHpgpCHfsokPGo0V8UKDfEOuwDn66uBBl8TwX0rcZA8_-ArNB0USXdBPaH-QfTVkCL7p051ww_0yGZbQ
-    */
+     // https://mermaid.live/edit#pako:eNplkUFqwzAQRa8iZpUQ5wKiu5a2FAKB7IqgTKxxbSJpjCwXQuq7V7It1021kfTf8OePdIOSNYGE0mDXPTX46dEqJ-I6GrySFw_f-7148dw7_VhTefkPD_xFllz4Q6TYVYYxCPtRvRKaUN_jt962m-29msySOuljqnX326QLsTszm2h-Nt2ESS9orMzqZitlqp3osPbNwX9Nl8gZnVpaGWecoj-zL2khOfZ8zbPlOaa2UIAlb7HR8cHHpgpCHfsokPGo0V8UKDfEOuwDn66uBBl8TwX0rcZA8_-ArNB0USXdBPaH-QfTVkCL7p051ww_0yGZbQ
+    
 }

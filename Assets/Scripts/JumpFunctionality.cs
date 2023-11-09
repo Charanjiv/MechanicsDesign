@@ -9,19 +9,20 @@ public class JumpFunctionality : MonoBehaviour
 {
     private Rigidbody2D m_RB;
     private GroundedScript m_GroundedScipt;
+    private Gravity m_GravityScript;
 
 
     [Header("Jumping")]
     [SerializeField] private float m_fJumpPower = 10.0f;
     public bool m_IsJumping;
-    public float LastOnGroundTime;
+    [SerializeField] private float LastOnGroundTime;
     public float jumpForce;
 
     //Jump
     private bool _isJumpCut;
     private bool _isJumpFalling;
-    public float coyoteTime;
-    public float jumpInputBufferTime;
+    [SerializeField] private float coyoteTime;
+    [SerializeField] private float jumpInputBufferTime;
     private float LastPressedJumpTime;
     
     [SerializeField] private Transform _groundCheckPoint;
@@ -33,12 +34,13 @@ public class JumpFunctionality : MonoBehaviour
         m_RB = GetComponent<Rigidbody2D>();
         //m_Grounded = true;
         m_GroundedScipt = GetComponent<GroundedScript>();
+        m_GravityScript = GetComponent<Gravity>();
     }
 
 
     private void Update()
     {
-
+        //m_GravityScript.SetGravity();
         LastOnGroundTime -= Time.deltaTime;
         LastPressedJumpTime -= Time.deltaTime;
 
@@ -85,10 +87,6 @@ public class JumpFunctionality : MonoBehaviour
         }
 
     }
-
-
-
-
     public void OnJumpInput()
     {
         LastPressedJumpTime = jumpInputBufferTime;
