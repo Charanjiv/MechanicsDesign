@@ -13,14 +13,22 @@ public class InputHandler : MonoBehaviour
     #region input variables
 {
     private PlayerInput m_Input;
-    private float m_fInMove;//float
+
+    //Movement
+    private float m_fInMove;
     private bool m_bIsMove;
     private Coroutine m_CRMove;
-    
 
-    private bool m_bISJump;
+    //Jump
+    private bool m_bIsJump;
+    private Coroutine m_CRJump;
+
+
+
     public GroundedMovementScript m_GMoveComp;
     public PlayerOneWayPlatform m_OneWayP;
+    public JumpFunctionality m_JumpScript;
+    public GroundedScript m_GroundedScript;
 
     #endregion
     public Rigidbody2D rb;
@@ -33,17 +41,31 @@ public class InputHandler : MonoBehaviour
         m_Input = GetComponent<PlayerInput>();
         m_GMoveComp = GetComponent<GroundedMovementScript>();//get movement script
         m_OneWayP = GetComponent<PlayerOneWayPlatform>();
+        m_JumpScript = GetComponent<JumpFunctionality>();
+        m_GroundedScript = GetComponent<GroundedScript>();
+        m_GMoveComp.Gravity();
+        
     }
     private void Start()
     {
         m_Input.currentActionMap.FindAction("Move").performed += Handle_MovePerformed;
         m_Input.currentActionMap.FindAction("Move").canceled += Handle_MoveCancelled;
+
         m_Input.currentActionMap.FindAction("Jump").performed += Handle_JumpPertformed;
         m_Input.currentActionMap.FindAction("Jump").canceled += Handle_JumpCancelled;
         m_Input.currentActionMap.FindAction("Crouch").performed += Handle_CrouchPerformed;
-      
-
     }
+
+    private void OnDestroy()
+    {
+        m_Input.currentActionMap.FindAction("Move").performed += Handle_MovePerformed;
+        m_Input.currentActionMap.FindAction("Move").canceled += Handle_MoveCancelled;
+
+        m_Input.currentActionMap.FindAction("Jump").performed += Handle_JumpPertformed;
+        m_Input.currentActionMap.FindAction("Jump").canceled += Handle_JumpCancelled;
+    }
+
+    #region Movement
     private void Handle_MovePerformed(InputAction.CallbackContext context)
     {
         m_fInMove = context.ReadValue<float>();
@@ -61,9 +83,10 @@ public class InputHandler : MonoBehaviour
         if (m_CRMove != null)
         {
             StopCoroutine(m_CRMove);
+            rb.velocity = new Vector2(0, rb.velocity.y);
         }
         m_CRMove = null;
-        //Debug.Log("Stooooooooooooooooooooooooooooooooop");
+        
     }
 
     private IEnumerator C_MoveUpdate()
@@ -71,35 +94,53 @@ public class InputHandler : MonoBehaviour
         while(m_bIsMove)
         {
             m_GMoveComp.AddMovementInput(m_fInMove);
+            Debug.Log($"Move Update! Value: {m_fInMove}");
             //rb.AddForce(new Vector2(m_fInMove, m_fInMove) * m_Speed, ForceMode2D.Force);
             yield return new WaitForFixedUpdate();
            
-            //Debug.Log($"Move Update! Value: {m_fInMove}");
+            
             yield return null;
             
         }
         
 
     }
+    #endregion
 
+    #region Jump
     private void Handle_JumpPertformed(InputAction.CallbackContext context)
     {
-        
-
-        Debug.Log("Jump");
+        m_bIsJump = true;
+        if (m_CRJump == null && m_GroundedScript.IsGrounded())
+        {
+            m_CRJump = StartCoroutine(C_JumpUpdate());
+            Debug.Log("Jumping");
+        }
     }
 
     
 
     private void Handle_JumpCancelled(InputAction.CallbackContext context)
     {
-
-       
+        m_bIsJump = false;
+        if (m_CRJump != null)
+        {
+            StopCoroutine(m_CRJump);
+            
+        }
+        m_CRJump = null;
     }
+
+    private IEnumerator C_JumpUpdate()
+    {
+        //m_JumpScript.Jump();
+        yield return null;
+    }
+    #endregion
 
     private void Handle_CrouchPerformed(InputAction.CallbackContext context)
     {
-        m_OneWayP?.CrouchOn();
+        m_OneWayP.CrouchOn();
     }
 
 

@@ -1,5 +1,7 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,117 +13,118 @@ public class JumpFunctionality : MonoBehaviour
 
     [Header("Jumping")]
     [SerializeField] private float m_fJumpPower = 10.0f;
-    [SerializeField] private float m_CoyoteDuration = 0.33f;
-    private float m_CoyoteTimer;
-    [SerializeField] private float m_JumpBufferDuration = 0.33f;
-    private float m_JumpBufferTimer;
-    [SerializeField] private float m_JumpSkipGroundCheckDuration = 0.5f;
-    private float m_JumpSkipGroundCheckTimer;
-    [SerializeField] private float m_JumpDuration;
-    [SerializeField] private float m_JumpTimer;
-    [SerializeField] private AnimationCurve m_AnalogueJumpUpForce;
-    private bool m_Grounded;
+    private bool m_IsJumping;
+    public float LastOnGroundTime;
+    public float jumpForce;
 
+    //Jump
+    private bool _isJumpCut;
+    private bool _isJumpFalling;
+    public float coyoteTime;
+    public float jumpInputBufferTime;
+    private float LastPressedJumpTime;
 
-
-
-
+    [SerializeField] private Transform _groundCheckPoint;
+    [SerializeField] private Vector2 _groundCheckSize = new Vector2(0.49f, 0.03f);
+    [SerializeField] private LayerMask _groundLayer;
 
     private void Awake()
     {
         m_RB = GetComponent<Rigidbody2D>();
-        m_Grounded = true;
+        //m_Grounded = true;
         m_GroundedScipt = GetComponent<GroundedScript>();
     }
 
-    private void FixedUpdate()
+
+    private void Update()
     {
+
+        LastOnGroundTime -= Time.deltaTime;
+        LastPressedJumpTime -= Time.deltaTime;
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            OnJumpInput();
+        }
+
+        if (Input.GetButtonUp("Jump"))
+        {
+            OnJumpUpInput();
+        }
+
+        //Collision
+        if (!m_IsJumping)
+        {
+            //Ground Check
+            //if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer) && !m_IsJumping) //checks if set box overlaps with ground
+            if(m_GroundedScipt.IsGrounded() && !m_IsJumping)
+            {
+              LastOnGroundTime = coyoteTime; //if so sets the lastGrounded to coyoteTime
+            }
+
+        }
+        //Jump Checks
+        if (m_IsJumping && m_RB.velocity.y < 0)
+        {
+            m_IsJumping = false;
+        }
+        if (LastOnGroundTime > 0 && !m_IsJumping)
+        {
+            _isJumpCut = false;
+
+            if (!m_IsJumping)
+                _isJumpFalling = false;
+        }
+        //Jump
+        if (CanJump() && LastPressedJumpTime > 0)
+        {
+            m_IsJumping = true;
+            _isJumpCut = false;
+            _isJumpFalling = false;
+            Jump();
+        }
+
+    }
+
+
+
+
+    public void OnJumpInput()
+    {
+        LastPressedJumpTime = jumpInputBufferTime;
+    }
+
+    public void OnJumpUpInput()
+    {
+        if (CanJumpCut())
+            _isJumpCut = true;
+    }
+
+    public void Jump()
+    {
+
+        //Stops double jump
+        LastPressedJumpTime = 0;
+        LastOnGroundTime = 0;
+
+
+        float force = jumpForce;
+        if (m_RB.velocity.y < 0)
+            force -= m_RB.velocity.y;
+
+        m_RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
         
-        if (m_JumpSkipGroundCheckTimer > 0f)
-        {
-            m_JumpSkipGroundCheckTimer -= Time.deltaTime;
-        }
-        else
-        {
-            if (m_CoyoteTimer > 0f && m_JumpBufferDuration > 0f)
-            {
-                m_RB.velocity = new Vector2(m_RB.velocity.x, 0f);
-                m_JumpSkipGroundCheckTimer = m_JumpSkipGroundCheckDuration;
-                m_JumpTimer = m_JumpDuration;
-                m_Grounded = false;
-                m_JumpBufferTimer = 0f;
-            }
-            if (m_JumpTimer > 0f)
-            {
-                m_JumpTimer -= Time.fixedDeltaTime;
-
-            }
-        }
     }
 
-    public void Jump(InputAction.CallbackContext context)
+    private bool CanJump()
     {
-        //COYOTE TIME
-        if(!m_Grounded)
-        {
-            if(m_CoyoteTimer > 0f)
-            {
-                m_CoyoteTimer -= Time.deltaTime;
-            }
-        }
-        else
-        {
-            if(m_CoyoteTimer != m_CoyoteDuration)
-            {
-                m_CoyoteTimer = m_CoyoteDuration;
-            }
-            if(m_JumpTimer != 0f)
-            {
-                m_JumpTimer = 0f;
-            }
-        }
-
-        //JUMP BUFFERING
-        if(context.performed)
-        {
-            m_JumpBufferTimer = m_JumpBufferDuration;
-        }
-        else if(m_JumpBufferTimer > 0f)
-        {
-            m_JumpBufferTimer -= Time.deltaTime;
-        }
-
-
-
-        //JUMPING
-        if(m_JumpTimer > 0f)
-        {
-            m_JumpTimer -= Time.deltaTime;
-            if(context.performed)
-            {
-                m_RB.AddForce(Vector2.up * m_fJumpPower * m_AnalogueJumpUpForce.Evaluate(m_JumpTimer / m_JumpDuration),ForceMode2D.Force);
-            }
-        }
-
-
-
-       
-       /* if (context.performed)
-        {
-
-            m_RB.velocity = new Vector2(m_RB.velocity.x, m_fJumpPower);
-            m_GroundedScipt.m_bGrounded = false;
-
-            Debug.Log("Performe normal jump");
-
-        }
-        else if (context.canceled)
-        {
-
-            m_RB.velocity = new Vector2(m_RB.velocity.x, m_fJumpPower * 0.5f);
-            m_GroundedScipt.m_bGrounded = false;
-            Debug.Log("Performe half jump");
-        }*/
-
+        return LastOnGroundTime > 0 && !m_IsJumping;
     }
+
+    private bool CanJumpCut()
+    {
+        return m_IsJumping && m_RB.velocity.y > 0;
+    }
+
 }
+

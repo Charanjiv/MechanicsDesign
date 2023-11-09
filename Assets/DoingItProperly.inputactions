@@ -24,7 +24,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "FallThroughPlatform",
+                    "name": "Crouch",
                     "type": "Button",
                     "id": "d5bbaab6-d28d-4a9a-b11c-ce1defe030bd",
                     "expectedControlType": "Button",
@@ -140,7 +140,7 @@
                     "interactions": "Hold",
                     "processors": "",
                     "groups": "",
-                    "action": "FallThroughPlatform",
+                    "action": "Crouch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -151,7 +151,7 @@
                     "interactions": "Hold",
                     "processors": "",
                     "groups": "",
-                    "action": "FallThroughPlatform",
+                    "action": "Crouch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

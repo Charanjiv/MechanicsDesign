@@ -10,28 +10,45 @@ public class PlayerOneWayPlatform : MonoBehaviour
 
     //private Collider2D collider;
     //private bool playerOnPlatform;
+    private GameObject currenyOneWayPlatform;
+    [SerializeField] private CapsuleCollider2D playerCollider;
 
-    private Rigidbody m_RB;
-    private BoxCollider2D m_BC;
-
-    private void Awake()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        m_BC = GetComponent<BoxCollider2D>();
-
+        if (collision.gameObject.CompareTag("OneWayPlatform"))
+        {
+            currenyOneWayPlatform = collision.gameObject;
+        }
     }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("OneWayPlatform"))
+        {
+            currenyOneWayPlatform = null;
+        }
+    }
+
+    private IEnumerator DisableCollision()
+    {
+        BoxCollider2D platformCollider = currenyOneWayPlatform.GetComponent<BoxCollider2D>();
+
+        Physics2D.IgnoreCollision(playerCollider, platformCollider);
+        yield return new WaitForSeconds(2);
+        Physics2D.IgnoreCollision(playerCollider, platformCollider, false);
+    }
+
+
 
     public void CrouchOn()
     {
-        StartCoroutine(TestIE());
+       if(currenyOneWayPlatform != null)
+        {
+            StartCoroutine(DisableCollision());
+        }
             
     }
 
-    private IEnumerator TestIE() 
-    {
-        m_BC.enabled = false;
-        yield return new WaitForSeconds(.5f);
-        m_BC.enabled = true;
-    }
 
 
 
