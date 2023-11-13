@@ -58,12 +58,12 @@ public class InputHandler : MonoBehaviour
 
     private void OnDestroy()
     {
-        m_Input.currentActionMap.FindAction("Move").performed += Handle_MovePerformed;
-        m_Input.currentActionMap.FindAction("Move").canceled += Handle_MoveCancelled;
+        m_Input.currentActionMap.FindAction("Move").performed -= Handle_MovePerformed;
+        m_Input.currentActionMap.FindAction("Move").canceled -= Handle_MoveCancelled;
 
-        m_Input.currentActionMap.FindAction("Jump").performed += Handle_JumpPertformed;
-        m_Input.currentActionMap.FindAction("Jump").canceled += Handle_JumpCancelled;
-        m_Input.currentActionMap.FindAction("Crouch").performed += Handle_CrouchPerformed;
+        m_Input.currentActionMap.FindAction("Jump").performed -= Handle_JumpPertformed;
+        m_Input.currentActionMap.FindAction("Jump").canceled -= Handle_JumpCancelled;
+        m_Input.currentActionMap.FindAction("Crouch").performed -= Handle_CrouchPerformed;
     }
 
     #region Movement
@@ -96,46 +96,22 @@ public class InputHandler : MonoBehaviour
         {
             m_GMoveComp.AddMovementInput(m_fInMove);
             Debug.Log($"Move Update! Value: {m_fInMove}");
-            //rb.AddForce(new Vector2(m_fInMove, m_fInMove) * m_Speed, ForceMode2D.Force);
+            
             yield return new WaitForFixedUpdate();
-           
-            
-            yield return null;
-            
+ 
         }
-        
-
     }
     #endregion
 
     #region Jump
     private void Handle_JumpPertformed(InputAction.CallbackContext context)
     {
-        m_bIsJump = true;
-        if (m_CRJump == null && m_GroundedScript.IsGrounded())
-        {
-            m_CRJump = StartCoroutine(C_JumpUpdate());
-            Debug.Log("Jumping");
-        }
+		m_JumpScript.OnJumpInput(true);
     }
-
-    
 
     private void Handle_JumpCancelled(InputAction.CallbackContext context)
     {
-        m_bIsJump = false;
-        if (m_CRJump != null)
-        {
-            StopCoroutine(m_CRJump);
-            
-        }
-        m_CRJump = null;
-    }
-
-    private IEnumerator C_JumpUpdate()
-    {
-        //m_JumpScript.Jump();
-        yield return null;
+		m_JumpScript.OnJumpInput(true);
     }
     #endregion
 

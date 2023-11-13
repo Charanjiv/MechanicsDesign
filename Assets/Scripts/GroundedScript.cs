@@ -9,25 +9,36 @@ using UnityEngine.InputSystem;
 public class GroundedScript : MonoBehaviour
 {
     public event Action<bool> OnGroundChanged;
-    public bool m_bGrounded = true;
+    private bool m_bGrounded = true;
+    public bool IsGrounded { get { return m_bGrounded; } }
 
-
-
-    [SerializeField] private Collider2D m_GroundedCol; //ground
-    [SerializeField] private LayerMask m_GroundedLayer; //collider
-    [SerializeField] private Transform groundCheck;
+    [SerializeField] private Collider2D m_GroundedCol;
+    [SerializeField] private LayerMask m_GroundedLayer;
 
     private void Awake()
     {
         if(m_GroundedCol == null)
         {
-            m_GroundedCol = GetComponent<Collider2D>(); //setting GroundCol to the collider
+            m_GroundedCol = GetComponent<Collider2D>();
         }
     }
 
-    public bool IsGrounded()
+    private void Update()
     {
-        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, m_GroundedLayer);
+
+
+        List<RaycastHit2D> hits = new List<RaycastHit2D>();
+        ContactFilter2D filter = new ContactFilter2D();
+        filter.SetLayerMask(m_GroundedLayer);
+        bool newGrounded = (m_GroundedCol.Cast(Vector2.down, filter, hits, 0.1f, true) > 0);
+        if(m_bGrounded != newGrounded)
+        {
+            m_bGrounded = newGrounded;
+            OnGroundChanged?.Invoke(m_bGrounded);
+        }
+
+		Debug.Log(m_bGrounded);
+
     }
 }
 

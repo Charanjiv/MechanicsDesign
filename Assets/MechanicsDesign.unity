@@ -1869,12 +1869,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26bef4afaa9af9d46a48d2cc05d4dea7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_bGrounded: 1
   m_GroundedCol: {fileID: 1969421942}
   m_GroundedLayer:
     serializedVersion: 2
-    m_Bits: 8
-  groundCheck: {fileID: 1751679693}
+    m_Bits: 4294967295
 --- !u!114 &1969421940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1889,15 +1887,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_fJumpPower: 10
   m_IsJumping: 1
-  LastOnGroundTime: 0
-  jumpForce: 12
-  coyoteTime: 1
-  jumpInputBufferTime: 0.2
-  _groundCheckPoint: {fileID: 1751679693}
-  _groundCheckSize: {x: 0.49, y: 0.03}
-  _groundLayer:
-    serializedVersion: 2
-    m_Bits: 8
+  m_CoyoteDuration: 0.2
+  m_JumpBufferDuration: 0.2
+  checkJump: 0
 --- !u!61 &1969421942
 BoxCollider2D:
   m_ObjectHideFlags: 0
