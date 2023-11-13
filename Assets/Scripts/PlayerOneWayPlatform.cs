@@ -11,7 +11,7 @@ public class PlayerOneWayPlatform : MonoBehaviour
     //private Collider2D collider;
     //private bool playerOnPlatform;
     private GameObject currenyOneWayPlatform;
-    [SerializeField] private CapsuleCollider2D playerCollider;
+    [SerializeField] private BoxCollider2D playerCollider;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
