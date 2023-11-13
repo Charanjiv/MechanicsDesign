@@ -9,20 +9,21 @@ public class Gravity : MonoBehaviour
 
 
     [Header("Gravity")]
-    [HideInInspector] public float gravityStrength; //Downwards force (gravity) needed for the desired jumpHeight and jumpTimeToApex.
-    [HideInInspector] public float gravityScale; //Strength of the player's gravity as a multiplier of gravity (set in ProjectSettings/Physics2D).
-                                                 //Also the value the player's rigidbody2D.gravityScale is set to.
+    [HideInInspector] public float gravityStrength; 
+
+    [HideInInspector] public float gravityScale; 
+                                                
     [Space(5)]
     public float fallGravityMult; //Multiplier to the player's gravityScale when falling.
-    public float maxFallSpeed; //Maximum fall speed (terminal velocity) of the player when falling.
+    public float maxFallSpeed;
     [Space(5)]
     public float fastFallGravityMult; //Larger multiplier to the player's gravityScale when they are falling and a downwards input is pressed.
-                                      //Seen in games such as Celeste, lets the player fall extra fast if they wish.
+                                      
     public float maxFastFallSpeed;
 
-    public float jumpCutGravityMult; //Multiplier to increase gravity if the player releases thje jump button while still jumping
-    [Range(0f, 1)] public float jumpHangGravityMult; //Reduces gravity while close to the apex (desired max height) of the jump
-    public float jumpHangTimeThreshold; //Speeds (close to 0) where the player will experience extra "jump hang". The player's velocity.y is closest to 0 at the jump's apex (think of the gradient of a parabola or quadratic function)
+    public float jumpCutGravityMult; 
+    [Range(0f, 1)] public float jumpHangGravityMult; 
+    public float jumpHangTimeThreshold; 
     [Space(0.5f)]
     public float jumpHangAccelerationMult;
     public float jumpHangMaxSpeedMult;
@@ -30,7 +31,7 @@ public class Gravity : MonoBehaviour
 
     private bool _isJumpCut;
     private bool _isJumpFalling;
-    private void gravity()
+    public void SetGravity()
         {
 
             if (m_RB.velocity.y < 0)
