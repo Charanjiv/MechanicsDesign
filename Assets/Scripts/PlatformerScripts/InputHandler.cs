@@ -19,16 +19,13 @@ public class InputHandler : MonoBehaviour
     private bool m_bIsMove;
     private Coroutine m_CRMove;
 
-    //Jump
-    private bool m_bIsJump;
-    private Coroutine m_CRJump;
-
-
+ 
 
     public GroundedMovementScript m_GMoveComp;
     public PlayerOneWayPlatform m_OneWayP;
     public JumpFunctionality m_JumpScript;
     public GroundedScript m_GroundedScript;
+    public CrouchScript m_CrouchScript;
 
     #endregion
     public Rigidbody2D rb;
@@ -39,11 +36,12 @@ public class InputHandler : MonoBehaviour
     private void Awake()
     {
         m_Input = GetComponent<PlayerInput>();
-        m_GMoveComp = GetComponent<GroundedMovementScript>();//get movement script
+        m_GMoveComp = GetComponent<GroundedMovementScript>();
         m_OneWayP = GetComponent<PlayerOneWayPlatform>();
         m_JumpScript = GetComponent<JumpFunctionality>();
         m_GroundedScript = GetComponent<GroundedScript>();
-        m_GMoveComp.Gravity();
+        m_CrouchScript = GetComponent<CrouchScript>();
+        
         
     }
     private void Start()
@@ -53,10 +51,14 @@ public class InputHandler : MonoBehaviour
 
         m_Input.currentActionMap.FindAction("Jump").performed += Handle_JumpPertformed;
         m_Input.currentActionMap.FindAction("Jump").canceled += Handle_JumpCancelled;
+        
+        m_Input.currentActionMap.FindAction("OneWayPlatform").performed += Handle_OneWayPlatformPerformed;
+
         m_Input.currentActionMap.FindAction("Crouch").performed += Handle_CrouchPerformed;
+        m_Input.currentActionMap.FindAction("Crouch").canceled += Handle_CrouchCancelled;
     }
 
-    private void OnDestroy()
+    /*private void OnDestroy()
     {
         m_Input.currentActionMap.FindAction("Move").performed -= Handle_MovePerformed;
         m_Input.currentActionMap.FindAction("Move").canceled -= Handle_MoveCancelled;
@@ -64,7 +66,7 @@ public class InputHandler : MonoBehaviour
         m_Input.currentActionMap.FindAction("Jump").performed -= Handle_JumpPertformed;
         m_Input.currentActionMap.FindAction("Jump").canceled -= Handle_JumpCancelled;
         m_Input.currentActionMap.FindAction("Crouch").performed -= Handle_CrouchPerformed;
-    }
+    }*/
 
     #region Movement
     private void Handle_MovePerformed(InputAction.CallbackContext context)
@@ -95,12 +97,13 @@ public class InputHandler : MonoBehaviour
         while(m_bIsMove)
         {
             m_GMoveComp.AddMovementInput(m_fInMove);
-            Debug.Log($"Move Update! Value: {m_fInMove}");
+            //Debug.Log($"Move Update! Value: {m_fInMove}");
             
             yield return new WaitForFixedUpdate();
  
         }
     }
+
     #endregion
 
     #region Jump
@@ -116,14 +119,24 @@ public class InputHandler : MonoBehaviour
     #endregion
 
     #region One WayPlatform
-    private void Handle_CrouchPerformed(InputAction.CallbackContext context)
+    private void Handle_OneWayPlatformPerformed(InputAction.CallbackContext context)
     {
         m_OneWayP.CrouchOn();
     }
 
     #endregion
 
-
-     // https://mermaid.live/edit#pako:eNplkUFqwzAQRa8iZpUQ5wKiu5a2FAKB7IqgTKxxbSJpjCwXQuq7V7It1021kfTf8OePdIOSNYGE0mDXPTX46dEqJ-I6GrySFw_f-7148dw7_VhTefkPD_xFllz4Q6TYVYYxCPtRvRKaUN_jt962m-29msySOuljqnX326QLsTszm2h-Nt2ESS9orMzqZitlqp3osPbNwX9Nl8gZnVpaGWecoj-zL2khOfZ8zbPlOaa2UIAlb7HR8cHHpgpCHfsokPGo0V8UKDfEOuwDn66uBBl8TwX0rcZA8_-ArNB0USXdBPaH-QfTVkCL7p051ww_0yGZbQ
+    #region
     
+    private void Handle_CrouchPerformed(InputAction.CallbackContext context)
+    {
+        m_CrouchScript.Crouch();
+    }
+    private void Handle_CrouchCancelled(InputAction.CallbackContext context)
+    {
+        m_CrouchScript.StandUp();
+    }
+    #endregion
+
+
 }

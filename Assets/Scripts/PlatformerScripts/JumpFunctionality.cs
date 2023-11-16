@@ -9,11 +9,11 @@ public class JumpFunctionality : MonoBehaviour
 {
 	private Rigidbody2D m_RB;
 	private GroundedScript m_GroundedScipt;
-	private Gravity m_GravityScript;
+	
 
 	[Header("Jumping")]
 	[SerializeField] private float m_fJumpPower = 10.0f;
-	public bool m_IsJumping;
+	//public bool m_IsJumping;
 	//[SerializeField] private float LastOnGroundTime;
 	//public float jumpForce;
 
@@ -47,10 +47,10 @@ public class JumpFunctionality : MonoBehaviour
 	public void OnJumpInput(bool triggered)
 	{
 
-		Debug.Log(m_GroundedScipt.IsGrounded);
+		//Debug.Log(m_GroundedScipt.IsGrounded);
 
 
-		if(m_GroundedScipt.IsGrounded)
+		if(m_GroundedScipt.m_bIsGrounded)
 		{
 			Launch();
 		}
@@ -76,19 +76,16 @@ public class JumpFunctionality : MonoBehaviour
 	private void Launch()
 	{
 
-		//Stops from jumping again
-		//LastPressedJumpTime = 0;
-		//LastOnGroundTime = 0;
-
+	
 
 		//float force = jumpForce;
 		//if (m_RB.velocity.y < 0)
 		//	force += m_RB.velocity.y;
 		//m_RB.AddForce(Vector2.up * m_fJumpPower, ForceMode2D.Impulse);
 
-		m_RB.velocity = new Vector2(m_RB.velocity.x, m_fJumpPower);
-		m_CRPostLaunchDelay = StartCoroutine(C_PostLaunchDelay());
-		Debug.Log("Jumping");
+        m_RB.velocity = new Vector2(m_RB.velocity.x, m_fJumpPower);
+        m_CRPostLaunchDelay = StartCoroutine(C_PostLaunchDelay());
+		//Debug.Log("Jumping");
 
 	}
 
@@ -101,7 +98,8 @@ public class JumpFunctionality : MonoBehaviour
 			//just landed
 			if(m_IsRequestingJump)
 			{
-				StopCoroutine(m_CRJumpBuffer);
+                Debug.Log("JumpBuffer");
+                StopCoroutine(m_CRJumpBuffer);
 				m_IsRequestingJump = false;
 				Launch();
 			}
@@ -126,6 +124,7 @@ public class JumpFunctionality : MonoBehaviour
 
 	private IEnumerator C_JumpBuffering()
 	{
+		
 		m_IsRequestingJump = true;
 		yield return new WaitForSeconds(m_JumpBufferDuration);
 		m_IsRequestingJump = false;

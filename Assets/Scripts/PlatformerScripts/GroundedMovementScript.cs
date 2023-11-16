@@ -12,30 +12,26 @@ public class GroundedMovementScript : MonoBehaviour
 
 {
 
-    //attached components
-    private GroundedScript m_GroundedScipt;
-
     //private 
     [SerializeField] private Rigidbody2D m_RB;
+    private CrouchScript m_CrouchScript;
 
 
     [Header("Movement")]
     [SerializeField] private float m_fMoveStrength;
     [SerializeField] private AnimationCurve m_StrengthLUT; //store a curve, nothing to do with animation
-    [SerializeField] private Vector2 m_SpeedLimits; //Vector can instead be used as 2 floats, it saves memory 
+    [SerializeField] private Vector2 m_SpeedLimits; 
     private float m_fRequestedDir; //looks for direction
 
-    [Header("Gravity")]
-    [SerializeField] private float baseGravity = 2.0f;
-    [SerializeField] private float maxFallSpeed = 18.0f;
-    [SerializeField] private float fallSpeedMultiplier = 2.0f;
+
 
   
 
     private void Awake()
     {
         m_RB = GetComponent<Rigidbody2D>();
-        Gravity();
+        m_CrouchScript = GetComponent<CrouchScript>();
+        //Gravity();
 
     }
     public void AddMovementInput(float inMov)
@@ -44,12 +40,21 @@ public class GroundedMovementScript : MonoBehaviour
         {
             m_fRequestedDir = inMov;
         }
+
         StartMoving();
     }
 
-    public void StartMoving()
+    private void StartMoving()
     {
-        m_RB.AddForce(Vector2.right * m_fRequestedDir * m_fMoveStrength, ForceMode2D.Force);
+        if (m_CrouchScript.m_bIsCrouching == true)
+        {
+            m_RB.AddForce(Vector2.right * m_fRequestedDir * m_fMoveStrength * 0.5f, ForceMode2D.Force);
+        }
+        else
+        {
+            m_RB.AddForce(Vector2.right * m_fRequestedDir * m_fMoveStrength, ForceMode2D.Force);
+        }
+
 
 
         if (m_RB.velocity.magnitude > m_SpeedLimits.y)
@@ -58,18 +63,7 @@ public class GroundedMovementScript : MonoBehaviour
         }
     }
 
-    public void Gravity()
-    {
-        if (m_RB.velocity.y < 0)
-        {
-            m_RB.gravityScale = baseGravity * fallSpeedMultiplier; //fall increasingly faster
-            m_RB.velocity = new Vector2(m_RB.velocity.x, Mathf.Max(m_RB.velocity.y, -maxFallSpeed));
-        }
-        else
-        {
-            m_RB.gravityScale = baseGravity;
-        }
-    }
+
 
    
 }

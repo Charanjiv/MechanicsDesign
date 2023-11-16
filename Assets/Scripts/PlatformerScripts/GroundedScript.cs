@@ -10,10 +10,16 @@ public class GroundedScript : MonoBehaviour
 {
     public event Action<bool> OnGroundChanged;
     private bool m_bGrounded = true;
-    public bool IsGrounded { get { return m_bGrounded; } }
-
+    public bool m_bIsGrounded { get { return m_bGrounded; } }
+    [Header("Grounded")]
     [SerializeField] private Collider2D m_GroundedCol;
     [SerializeField] private LayerMask m_GroundedLayer;
+
+    [Header("Gravity")]
+    [SerializeField] private Rigidbody2D m_RB;
+    [SerializeField] private float m_fBaseGravity = 2.0f;
+    [SerializeField] private float m_fMaxFallSpeed = 18.0f;
+    [SerializeField] private float m_fFallSpeedMultiplier = 2.0f;
 
     private void Awake()
     {
@@ -25,8 +31,6 @@ public class GroundedScript : MonoBehaviour
 
     private void Update()
     {
-
-
         List<RaycastHit2D> hits = new List<RaycastHit2D>();
         ContactFilter2D filter = new ContactFilter2D();
         filter.SetLayerMask(m_GroundedLayer);
@@ -37,8 +41,21 @@ public class GroundedScript : MonoBehaviour
             OnGroundChanged?.Invoke(m_bGrounded);
         }
 
-		Debug.Log(m_bGrounded);
+        //Debug.Log(m_bGrounded);
+        Gravity();
+    }
 
+    public void Gravity()
+    {
+        if (m_RB.velocity.y < 0)
+        {
+            m_RB.gravityScale = m_fBaseGravity * m_fFallSpeedMultiplier; //fall increasingly faster
+            m_RB.velocity = new Vector2(m_RB.velocity.x, Mathf.Max(m_RB.velocity.y, -m_fMaxFallSpeed));
+        }
+        else
+        {
+            m_RB.gravityScale = m_fBaseGravity;
+        }
     }
 }
 

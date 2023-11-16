@@ -7,9 +7,6 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerOneWayPlatform : MonoBehaviour
 {
-
-    //private Collider2D collider;
-    //private bool playerOnPlatform;
     private GameObject currenyOneWayPlatform;
     [SerializeField] private BoxCollider2D playerCollider;
 
@@ -34,7 +31,7 @@ public class PlayerOneWayPlatform : MonoBehaviour
         BoxCollider2D platformCollider = currenyOneWayPlatform.GetComponent<BoxCollider2D>();
 
         Physics2D.IgnoreCollision(playerCollider, platformCollider);
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
         Physics2D.IgnoreCollision(playerCollider, platformCollider, false);
     }
 
