@@ -89,6 +89,16 @@ public class JumpFunctionality : MonoBehaviour
 
 	}
 
+	public void ChargedLaunch()
+	{
+		if (m_GroundedScipt.m_bIsGrounded)
+		{
+
+			m_RB.velocity = new Vector2(m_RB.velocity.x, m_fJumpPower * 2);
+			m_CRPostLaunchDelay = StartCoroutine(C_PostLaunchDelay());
+		}
+    }
+
 
 
 	private void Handle_GroundedChanged(bool newGrounded)

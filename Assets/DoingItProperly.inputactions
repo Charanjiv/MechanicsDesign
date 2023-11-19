@@ -40,6 +40,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "HeldJump",
+                    "type": "Button",
+                    "id": "40bdbd39-73b2-4661-9ab8-eda5042482c9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -172,6 +181,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Crouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cedd1ae9-0aea-41e3-b6dc-96aeedd0ff85",
+                    "path": "<Keyboard>/space",
+                    "interactions": "Press(pressPoint=1,behavior=2)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HeldJump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
