@@ -188,7 +188,7 @@
                     "name": "",
                     "id": "cedd1ae9-0aea-41e3-b6dc-96aeedd0ff85",
                     "path": "<Keyboard>/space",
-                    "interactions": "Press(pressPoint=1,behavior=2)",
+                    "interactions": "Hold",
                     "processors": "",
                     "groups": "",
                     "action": "HeldJump",

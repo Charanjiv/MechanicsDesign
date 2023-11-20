@@ -50,7 +50,7 @@ public class InputHandler : MonoBehaviour
         m_Input.currentActionMap.FindAction("Move").canceled += Handle_MoveCancelled;
 
         m_Input.currentActionMap.FindAction("Jump").performed += Handle_JumpPertformed;
-       // m_Input.currentActionMap.FindAction("Jump").canceled += Handle_JumpCancelled;
+        m_Input.currentActionMap.FindAction("Jump").canceled += Handle_JumpCancelled;
 
         m_Input.currentActionMap.FindAction("HeldJump").performed += Handle_PoweredJumpPertformed;
 
@@ -115,10 +115,10 @@ public class InputHandler : MonoBehaviour
 		m_JumpScript.OnJumpInput(true);
     }
 
-    /*private void Handle_JumpCancelled(InputAction.CallbackContext context)
+    private void Handle_JumpCancelled(InputAction.CallbackContext context)
     {
 		m_JumpScript.OnJumpInput(true);
-    }*/
+    }
 
     private void Handle_PoweredJumpPertformed(InputAction.CallbackContext context)
     {

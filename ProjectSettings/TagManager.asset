@@ -6,6 +6,7 @@ TagManager:
   tags:
   - OneWayPlatform
   - Obsticle
+  - Audio
   layers:
   - Default
   - TransparentFX

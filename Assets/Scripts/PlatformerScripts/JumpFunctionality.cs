@@ -9,7 +9,7 @@ public class JumpFunctionality : MonoBehaviour
 {
 	private Rigidbody2D m_RB;
 	private GroundedScript m_GroundedScipt;
-	
+	private AudioManager audioManager;
 
 	[Header("Jumping")]
 	[SerializeField] private float m_fJumpPower = 10.0f;
@@ -33,9 +33,8 @@ public class JumpFunctionality : MonoBehaviour
 	private void Awake()
 	{
 		m_RB = GetComponent<Rigidbody2D>();
-		//m_Grounded = true;
 		m_GroundedScipt = GetComponent<GroundedScript>();
-		
+		audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
 
 		m_GroundedScipt.OnGroundChanged += Handle_GroundedChanged;
 		m_IsRequestingJump = m_JumpPossible = m_RecentlyJumped = false;
@@ -75,14 +74,11 @@ public class JumpFunctionality : MonoBehaviour
 
 	private void Launch()
 	{
-
-	
-
 		//float force = jumpForce;
 		//if (m_RB.velocity.y < 0)
 		//	force += m_RB.velocity.y;
 		//m_RB.AddForce(Vector2.up * m_fJumpPower, ForceMode2D.Impulse);
-
+		audioManager.PlayerSFX(audioManager.Jump);
         m_RB.velocity = new Vector2(m_RB.velocity.x, m_fJumpPower);
         m_CRPostLaunchDelay = StartCoroutine(C_PostLaunchDelay());
 		//Debug.Log("Jumping");
