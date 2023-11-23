@@ -57,7 +57,6 @@ public class PlayerHealth : MonoBehaviour
             audioManager.PlayerSFX(audioManager.Damage);
             StartCoroutine(C_Respawn(respawnDuration));
             SetHealth();
-
         }
     }
 

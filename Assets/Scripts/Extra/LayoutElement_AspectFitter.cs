@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class LayoutEllement_AspectFitter : LayoutElement
 { 
-    [SerializeField] private float m_Aspect;
+    /*[SerializeField] private float m_Aspect;
     [SerializeField] private AspectPriority m_AspectType;
 
     protected IEnumerator Start()
@@ -35,7 +35,7 @@ public class LayoutEllement_AspectFitter : LayoutElement
     public override void CalculateLayoutInputVertical()
     {
         OnValidate();
-    }
+    }*/
 
 
 
