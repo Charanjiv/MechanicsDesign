@@ -15,6 +15,7 @@ public class GroundedMovementScript : MonoBehaviour
     //private 
     [SerializeField] private Rigidbody2D m_RB;
     private CrouchScript m_CrouchScript;
+    private GroundedScript m_GrouchScript;
 
 
     [Header("Movement")]
@@ -22,6 +23,7 @@ public class GroundedMovementScript : MonoBehaviour
     [SerializeField] private AnimationCurve m_StrengthLUT; //store a curve, nothing to do with animation
     [SerializeField] private Vector2 m_SpeedLimits; 
     private float m_fRequestedDir; //looks for direction
+    private bool m_canMove = true;
 
 
 
@@ -31,6 +33,7 @@ public class GroundedMovementScript : MonoBehaviour
     {
         m_RB = GetComponent<Rigidbody2D>();
         m_CrouchScript = GetComponent<CrouchScript>();
+        m_GrouchScript = GetComponent<GroundedScript>();
         //Gravity();
 
     }
@@ -39,6 +42,7 @@ public class GroundedMovementScript : MonoBehaviour
         if (m_fRequestedDir != inMov)
         {
             m_fRequestedDir = inMov;
+            m_canMove=true;
         }
 
         StartMoving();
@@ -46,13 +50,21 @@ public class GroundedMovementScript : MonoBehaviour
 
     private void StartMoving()
     {
-        if (m_CrouchScript.m_bIsCrouching == true)
+        if (m_canMove == true)
         {
-            m_RB.AddForce(Vector2.right * m_fRequestedDir * m_fMoveStrength * 0.5f, ForceMode2D.Force);
+            if (m_CrouchScript.m_bIsCrouching == true)
+            {
+                m_RB.AddForce(Vector2.right * m_fRequestedDir * m_fMoveStrength * 0.5f, ForceMode2D.Force);
+            }
+            else
+            {
+                m_RB.AddForce(Vector2.right * m_fRequestedDir * m_fMoveStrength, ForceMode2D.Force);
+            }
         }
-        else
+        if (m_CrouchScript.m_bIsCrouching == true && !m_GrouchScript.m_bGrounded)
         {
-            m_RB.AddForce(Vector2.right * m_fRequestedDir * m_fMoveStrength, ForceMode2D.Force);
+            m_canMove = false;
+            m_RB.velocity = new Vector2(0, m_RB.velocity.y);
         }
 
 

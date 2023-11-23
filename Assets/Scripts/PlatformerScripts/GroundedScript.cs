@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 public class GroundedScript : MonoBehaviour
 {
     public event Action<bool> OnGroundChanged;
-    private bool m_bGrounded = true;
+    public bool m_bGrounded = true;
     public bool m_bIsGrounded { get { return m_bGrounded; } }
     [Header("Grounded")]
     [SerializeField] private Collider2D m_GroundedCol;

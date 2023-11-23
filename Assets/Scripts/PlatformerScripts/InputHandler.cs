@@ -12,6 +12,8 @@ public class InputHandler : MonoBehaviour
 
     #region input variables
 {
+    [SerializeField] Rigidbody2D rb;
+    [SerializeField] ParticleSystem smokeFX;
     private PlayerInput m_Input;
 
     //Movement
@@ -21,14 +23,16 @@ public class InputHandler : MonoBehaviour
 
  
 
-    public GroundedMovementScript m_GMoveComp;
+    private GroundedMovementScript m_GMoveComp;
     public PlayerOneWayPlatform m_OneWayP;
     public JumpFunctionality m_JumpScript;
     public GroundedScript m_GroundedScript;
     public CrouchScript m_CrouchScript;
+    private Dash m_DashScript;
 
     #endregion
-    public Rigidbody2D rb;
+    
+
 
 
 
@@ -41,6 +45,7 @@ public class InputHandler : MonoBehaviour
         m_JumpScript = GetComponent<JumpFunctionality>();
         m_GroundedScript = GetComponent<GroundedScript>();
         m_CrouchScript = GetComponent<CrouchScript>();
+        m_DashScript = GetComponent<Dash>();
         
         
     }
@@ -54,11 +59,12 @@ public class InputHandler : MonoBehaviour
 
         m_Input.currentActionMap.FindAction("HeldJump").performed += Handle_PoweredJumpPertformed;
 
-
         m_Input.currentActionMap.FindAction("OneWayPlatform").performed += Handle_OneWayPlatformPerformed;
 
         m_Input.currentActionMap.FindAction("Crouch").performed += Handle_CrouchPerformed;
         m_Input.currentActionMap.FindAction("Crouch").canceled += Handle_CrouchCancelled;
+        
+        m_Input.currentActionMap.FindAction("Dash").performed += Handle_DashPerformed;
     }
 
     /*private void OnDestroy()
@@ -79,6 +85,7 @@ public class InputHandler : MonoBehaviour
         if(m_CRMove == null)
         {
             m_CRMove = StartCoroutine(C_MoveUpdate());
+            
         }
     }
 
@@ -97,11 +104,13 @@ public class InputHandler : MonoBehaviour
 
     private IEnumerator C_MoveUpdate()
     {
-        while(m_bIsMove)
+        
+        while (m_bIsMove)
         {
+
             m_GMoveComp.AddMovementInput(m_fInMove);
-            //Debug.Log($"Move Update! Value: {m_fInMove}");
-            
+            smokeFX.Play();
+            //Debug.Log($"Move Update! Value: {m_fInMove}");  
             yield return new WaitForFixedUpdate();
  
         }
@@ -113,6 +122,7 @@ public class InputHandler : MonoBehaviour
     private void Handle_JumpPertformed(InputAction.CallbackContext context)
     {
 		m_JumpScript.OnJumpInput(true);
+        smokeFX.Play();
     }
 
     private void Handle_JumpCancelled(InputAction.CallbackContext context)
@@ -134,7 +144,8 @@ public class InputHandler : MonoBehaviour
 
     #endregion
 
-    #region
+
+    #region Crouch
     
     private void Handle_CrouchPerformed(InputAction.CallbackContext context)
     {
@@ -145,6 +156,10 @@ public class InputHandler : MonoBehaviour
         m_CrouchScript.StandUp();
     }
     #endregion
+    private void Handle_DashPerformed(InputAction.CallbackContext context)
+    {
+        m_DashScript.StartCoroutine(m_DashScript.C_Dash());//startDash();
 
+    }
 
 }

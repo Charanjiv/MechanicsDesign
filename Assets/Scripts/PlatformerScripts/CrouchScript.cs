@@ -28,6 +28,7 @@ public class CrouchScript : MonoBehaviour
         m_bIsCrouching = true;
         m_boxCollider.size = crouchColliderSize;
         m_boxCollider.offset = crouchColliderOffset;
+
     }
 
     public void StandUp()
