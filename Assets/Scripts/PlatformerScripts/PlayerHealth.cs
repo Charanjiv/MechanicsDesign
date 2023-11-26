@@ -14,7 +14,7 @@ public class PlayerHealth : MonoBehaviour
     public HealthUI healthUI;
     private SpriteRenderer spriteRenderer;
     private int damage = 1;
-    private Vector2 startPos;
+    private Vector2 checkPoint;
 
     private void Awake()
     {
@@ -23,7 +23,7 @@ public class PlayerHealth : MonoBehaviour
     }
     private void Start()
     {
-        startPos = transform.position;
+        checkPoint = transform.position;
         SetHealth();
 
         spriteRenderer = GetComponent<SpriteRenderer>(); 
@@ -56,7 +56,7 @@ public class PlayerHealth : MonoBehaviour
         {
             audioManager.PlayerSFX(audioManager.Damage);
             StartCoroutine(C_Respawn(respawnDuration));
-            SetHealth();
+            
         }
     }
 
@@ -68,9 +68,10 @@ public class PlayerHealth : MonoBehaviour
         m_RB.velocity = new Vector2(0, 0);
         spriteRenderer.enabled = false;
         yield return new WaitForSeconds(duration);
-        transform.position = startPos;
+        transform.position = checkPoint;
         spriteRenderer.enabled = true;
         m_RB.simulated = true;
+        SetHealth();
     }
 
     private IEnumerator C_FlashRed()
@@ -78,6 +79,11 @@ public class PlayerHealth : MonoBehaviour
         spriteRenderer.color = Color.red;
         yield return new WaitForSeconds(0.2f);
         spriteRenderer.color = Color.white;
+    }
+
+    public void UpdateCkeckpoint(Vector2 pos)
+    {
+        checkPoint = pos;
     }
 
 }

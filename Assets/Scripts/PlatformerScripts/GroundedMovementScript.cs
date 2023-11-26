@@ -11,11 +11,12 @@ public class GroundedMovementScript : MonoBehaviour
 
 
 {
-
-    //private 
+ 
     [SerializeField] private Rigidbody2D m_RB;
     private CrouchScript m_CrouchScript;
     private GroundedScript m_GrouchScript;
+    public bool isOnPlatform;
+    public Rigidbody2D platformRB;
 
 
     [Header("Movement")]
@@ -24,6 +25,7 @@ public class GroundedMovementScript : MonoBehaviour
     [SerializeField] private Vector2 m_SpeedLimits; 
     private float m_fRequestedDir; //looks for direction
     private bool m_canMove = true;
+
 
 
 
@@ -60,10 +62,21 @@ public class GroundedMovementScript : MonoBehaviour
             {
                 m_RB.AddForce(Vector2.right * m_fRequestedDir * m_fMoveStrength, ForceMode2D.Force);
             }
+            if(isOnPlatform)
+            {
+                if (m_CrouchScript.m_bIsCrouching == true)
+                {
+                    m_RB.AddForce((Vector2.right * m_fRequestedDir * m_fMoveStrength * 0.5f) + platformRB.velocity, ForceMode2D.Force);
+                }
+                else
+                {
+                    m_RB.AddForce((Vector2.right * m_fRequestedDir * m_fMoveStrength) + platformRB.velocity, ForceMode2D.Force);
+                }
+            }
         }
         if (m_CrouchScript.m_bIsCrouching == true && !m_GrouchScript.m_bGrounded)
         {
-            m_canMove = false;
+            
             m_RB.velocity = new Vector2(0, m_RB.velocity.y);
         }
 
@@ -77,5 +90,7 @@ public class GroundedMovementScript : MonoBehaviour
 
 
 
-   
+
+
+
 }
