@@ -6,11 +6,19 @@ using UnityEngine;
 public class Collectable : MonoBehaviour, IItem
 {
     public static event Action<int> OnCollect;
-    public int worth = 5;
+    [SerializeField] private int worth = 5;
+    private AudioManager audioManager;
+
+
+    private void Start()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
     public void Collect()
     {
         OnCollect.Invoke(worth);
         Destroy(gameObject);
+        audioManager.PlayerSFX(audioManager.collectablePickUp);
     }
 
 

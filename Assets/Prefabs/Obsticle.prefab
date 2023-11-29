@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4317711936101160081}
   - component: {fileID: 3216192475483151487}
   - component: {fileID: 4115773831820666785}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Obsticle
   m_TagString: Obsticle
   m_Icon: {fileID: 0}

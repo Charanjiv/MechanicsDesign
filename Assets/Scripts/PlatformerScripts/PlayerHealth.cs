@@ -10,6 +10,9 @@ public class PlayerHealth : MonoBehaviour
     private int currentHealth;
     [SerializeField] float respawnDuration;
     [SerializeField] private Rigidbody2D m_RB;
+    [SerializeField] private float IFramesDur;
+    [SerializeField] private int IFramesFlash;
+    
 
     public HealthUI healthUI;
     private SpriteRenderer spriteRenderer;
@@ -52,9 +55,10 @@ public class PlayerHealth : MonoBehaviour
         currentHealth -= damage;
         healthUI.UpdateHearts(currentHealth);
         StartCoroutine(C_FlashRed());
+        //StartCoroutine(C_InvincibilityFrame());
         if(currentHealth <= 0)
         {
-            audioManager.PlayerSFX(audioManager.Damage);
+            audioManager.PlayerSFX(audioManager.Death);
             StartCoroutine(C_Respawn(respawnDuration));
             
         }
@@ -85,5 +89,18 @@ public class PlayerHealth : MonoBehaviour
     {
         checkPoint = pos;
     }
+
+    /*private IEnumerator C_InvincibilityFrame()
+    {
+        Physics2D.IgnoreLayerCollision(6, 7, true);
+        
+            spriteRenderer.color = Color.grey;
+            yield return new WaitForSeconds(1);
+            spriteRenderer.color = Color.white;
+            yield return new WaitForSeconds(1);
+        
+        Physics2D.IgnoreLayerCollision(6, 7, false);
+
+    }*/
 
 }

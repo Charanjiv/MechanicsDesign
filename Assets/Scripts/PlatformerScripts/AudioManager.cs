@@ -13,8 +13,25 @@ public class AudioManager : MonoBehaviour
     public AudioClip Damage;
     public AudioClip collectablePickUp;
     public AudioClip Death;
-    
-    // Start is called before the first frame update
+    public AudioClip Checkpoint;
+    public AudioClip ButtonPress;
+    public AudioClip Dash;
+
+    public static AudioManager  Instance;
+
+    private void Awake()
+    {
+        if (Instance == null) 
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        
+    }
     private void Start()
     {
         musicSource.clip = background;
@@ -26,5 +43,9 @@ public class AudioManager : MonoBehaviour
         SFXSource.PlayOneShot(clip);
     }
 
+    public void ButtonPressed()
+    {
+        PlayerSFX(Checkpoint);
+    }
 
 }

@@ -6,6 +6,7 @@ public class Dash : MonoBehaviour
 {
     private bool m_bCanDash;
     private bool m_bIsDashing;
+    private AudioManager audioManager;
     [SerializeField] private float m_fDashingPower;
     [SerializeField] private float m_fDashingTime;
     [SerializeField] private float m_fDashingCooldown;
@@ -16,12 +17,14 @@ public class Dash : MonoBehaviour
     private void Start()
     {
         m_bCanDash = true;
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     public IEnumerator C_Dash()
     {
         if (m_bCanDash)
         {
+            audioManager.PlayerSFX(audioManager.Dash);
             m_bCanDash = false;
             m_bIsDashing = true;
             float originalGravity = m_RB.gravityScale;
