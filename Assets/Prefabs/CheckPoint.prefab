@@ -145,3 +145,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   passive: {fileID: -91545194, guid: 66524f295cd390e46a6ffa3c69165bd0, type: 3}
   active: {fileID: 718159490, guid: 66524f295cd390e46a6ffa3c69165bd0, type: 3}
+  checkpointFX: {fileID: 7456141251133987234, guid: cace45fd4eaf2bc48a8609d397b3788f, type: 3}

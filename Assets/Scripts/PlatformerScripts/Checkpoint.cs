@@ -9,6 +9,7 @@ public class Checkpoint : MonoBehaviour
     private AudioManager audioManager;
     [SerializeField] Sprite passive, active;
     private Collider2D coll;
+    [SerializeField] ParticleSystem checkpointFX;
 
 
 
@@ -24,6 +25,7 @@ public class Checkpoint : MonoBehaviour
     {
         if(collision.CompareTag("Player"))
         {
+            checkpointFX.Play();
             playerHealth.UpdateCkeckpoint(transform.position);
             spriteRenderer.sprite = active;
             coll.enabled = false;

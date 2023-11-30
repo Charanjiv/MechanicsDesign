@@ -62,6 +62,7 @@ public class GroundedMovementScript : MonoBehaviour
             {
                 m_RB.AddForce(Vector2.right * m_fRequestedDir * m_fMoveStrength, ForceMode2D.Force);
             }
+
             if(isOnPlatform)
             {
                 if (m_CrouchScript.m_bIsCrouching == true)
@@ -72,6 +73,11 @@ public class GroundedMovementScript : MonoBehaviour
                 {
                     m_RB.AddForce((Vector2.right * m_fRequestedDir * m_fMoveStrength) + platformRB.velocity, ForceMode2D.Force);
                 }
+            }
+
+            if (!m_GrouchScript.m_bIsGrounded)
+            {
+                m_RB.AddForce(Vector2.right * m_fRequestedDir * m_fMoveStrength *1.5f, ForceMode2D.Force);
             }
         }
         if (m_CrouchScript.m_bIsCrouching == true && !m_GrouchScript.m_bGrounded)
@@ -86,6 +92,8 @@ public class GroundedMovementScript : MonoBehaviour
         {
             m_RB.velocity = m_RB.velocity.normalized * m_SpeedLimits.y;
         }
+
+    
     }
 
 

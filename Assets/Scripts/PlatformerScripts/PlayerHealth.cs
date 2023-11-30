@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -12,12 +13,14 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private Rigidbody2D m_RB;
     [SerializeField] private float IFramesDur;
     [SerializeField] private int IFramesFlash;
-    
+    [SerializeField] ParticleSystem deathFX;
+
 
     public HealthUI healthUI;
     private SpriteRenderer spriteRenderer;
     private int damage = 1;
     private Vector2 checkPoint;
+    private CinemachineImpulseSource impulseSource;
 
     private void Awake()
     {
@@ -28,7 +31,7 @@ public class PlayerHealth : MonoBehaviour
     {
         checkPoint = transform.position;
         SetHealth();
-
+        impulseSource = GetComponent<CinemachineImpulseSource>();
         spriteRenderer = GetComponent<SpriteRenderer>(); 
     }
 
@@ -55,9 +58,11 @@ public class PlayerHealth : MonoBehaviour
         currentHealth -= damage;
         healthUI.UpdateHearts(currentHealth);
         StartCoroutine(C_FlashRed());
+        CameraShakeManager.instance.CameraShake(impulseSource);
         //StartCoroutine(C_InvincibilityFrame());
-        if(currentHealth <= 0)
+        if (currentHealth <= 0)
         {
+            deathFX.Play();
             audioManager.PlayerSFX(audioManager.Death);
             StartCoroutine(C_Respawn(respawnDuration));
             
